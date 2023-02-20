@@ -1,14 +1,24 @@
 package demo;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Component
 public class ChinookDAO {
-    // Default values that can be overridden
-    private String url = "jdbc:postgresql://localhost:5432/postgres";
-    private String username = "postgres";
-    private String password = "admin";
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.username}")
+    private String username;
+    @Value("${spring.datasource.password}")
+    private String password;
+
+    public ChinookDAO(){
+
+    }
 
     public ChinookDAO(String url, String username, String password) {
         this.url = url;
