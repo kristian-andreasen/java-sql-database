@@ -1,19 +1,27 @@
 package demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SuperheroesDbApplication {
+public class SuperheroesDbApplication implements ApplicationRunner {
+    //contains all objects
+    @Autowired
+    ChinookDAO dao;
+    CustomerRepositoryImpl customerRepositoryImpl;
 
     public static void main(String[] args) {
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String username = "postgres";
-        String password = "admin";
+        SpringApplication.run(SuperheroesDbApplication.class, args); //this should be the only code in the main scope
 
-        ChinookDAO dao = new ChinookDAO(url, username, password);
-        dao.test();
     }
 
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        dao.test();
 
+        customerRepositoryImpl.findAll();
+    }
 }
