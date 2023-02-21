@@ -25,12 +25,13 @@ public class SuperheroesDbApplication implements ApplicationRunner {
 
 
         // customer requirements 1)
-        //System.out.println(customerRepositoryImpl.findAllCustomers());
+        //System.out.println(customerRepositoryImpl.findAll());
 
         // customer requirements 2)
         //System.out.println(customerRepositoryImpl.findById(2));
 
         //customer requirements 3)
+        //System.out.println(customerRepositoryImpl.findCustomerByName("Bjørn"));
 
     }
 }

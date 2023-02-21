@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface CustomerRepository extends CRUDRepository<Customer, Integer> {
     // add any additional methods specific to the Customer repository
-    List<Customer> findAllCustomers();
+    Customer findCustomerByName(String name);
 
 }

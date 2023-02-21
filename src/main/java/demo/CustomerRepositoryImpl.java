@@ -13,7 +13,7 @@ import java.lang.*;
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
     @Value("${spring.datasource.url}")
-    private String url = "jdbc:postgresql://localhost:5432/test1"; //
+    private String url = "jdbc:postgresql://localhost:5432/chinook"; //
     @Value("${spring.datasource.username}")
     private String username = "postgres";
     @Value("${spring.datasource.password}")
@@ -21,7 +21,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
 
     @Override
-    public List<Customer> findAllCustomers() {
+    public List<Customer> findAll() {
         String sql = "SELECT * FROM customer";
         List<Customer> customers = new ArrayList<>();
         try(Connection conn = DriverManager.getConnection(url, username,password)) {
@@ -50,11 +50,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAll() {
-        return null;
-    }
-
-    @Override
     public Customer findById(Integer id) {
         String sql = "SELECT * FROM customer WHERE customer_id = ?";
         //List<Customer> customers = new ArrayList<>();
@@ -75,16 +70,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 customer.setPostal_code(result.getString("postal_code"));
                 customer.setPhone(result.getString("phone"));
                 customer.setEmail(result.getString("email"));
-
-
-
-
             }
-
-            /*while(result.next()) {
-                Customer customer = new Customer();
-                customers.add(customer);
-            }*/
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -92,6 +78,31 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     }
 
+    @Override
+    public Customer findCustomerByName(String name) {
+        String sql = "SELECT * FROM customer WHERE first_name LIKE ?";
+        Customer customer = new Customer();
+        try(Connection conn = DriverManager.getConnection(url, username,password)) {
+            // Write statement
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1,name);
+            // Execute statement
+            ResultSet result = statement.executeQuery();
+            // Handle result
+            while(result.next()) {
+                customer.setId(result.getInt("customer_id"));
+                customer.setFirstName(result.getString("first_name"));
+                customer.setLastName(result.getString("last_name"));
+                customer.setCountry(result.getString("country"));
+                customer.setPostal_code(result.getString("postal_code"));
+                customer.setPhone(result.getString("phone"));
+                customer.setEmail(result.getString("email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer;
+    }
     @Override
     public int insert(Customer object) {
         return 0;
@@ -111,4 +122,5 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public int deleteById(Integer id) {
         return 0;
     }
+
 }
