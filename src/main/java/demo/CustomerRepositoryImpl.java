@@ -13,21 +13,11 @@ import java.lang.*;
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
     @Value("${spring.datasource.url}")
-    private String url;
+    private String url = "jdbc:postgresql://localhost:5432/test1"; //
     @Value("${spring.datasource.username}")
-    private String username;
+    private String username = "postgres";
     @Value("${spring.datasource.password}")
-    private String password;
-
-    /*public record Customer(
-            int id,
-            String first_name,
-            String last_name,
-            String country,
-            String postal_code,
-            String phone,
-            String email) {
-    }*/
+    private String password = "admin";
 
 
     @Override
@@ -41,8 +31,17 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             ResultSet result = statement.executeQuery();
             // Handle result
             while(result.next()) {
-                Customer customer = new Customer();
+                Customer customer = new Customer(
+                        result.getInt("customer_id"),
+                        result.getString("first_name"),
+                        result.getString("last_name"),
+                        result.getString("country"),
+                        result.getString("postal_code"),
+                        result.getString("phone"),
+                        result.getString("email")
+                );
                 customers.add(customer);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();

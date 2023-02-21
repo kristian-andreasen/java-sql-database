@@ -1,10 +1,13 @@
 package demo;
 
+import demo.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
 
 @SpringBootApplication
 public class SuperheroesDbApplication implements ApplicationRunner {
@@ -21,8 +24,9 @@ public class SuperheroesDbApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         dao.test();
+        CustomerRepositoryImpl customerRepositoryImpl  = new CustomerRepositoryImpl();
+        
+        System.out.println(customerRepositoryImpl.findAllCustomers());
 
-
-        customerRepositoryImpl.findAll();
     }
 }
