@@ -1,3 +1,4 @@
+
 package demo;
 
 public record Customer() {
@@ -11,7 +12,4 @@ public record Customer() {
     static String phone;
     static String fax;
     static String email;
-
-
-
 }

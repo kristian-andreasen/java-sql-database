@@ -22,6 +22,12 @@ public class SuperheroesDbApplication implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         dao.test();
 
+
+        customerRepositoryImpl.findAll();
+    }
+}
+
         //customerRepositoryImpl.findAll();
     }
 }
+
