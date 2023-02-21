@@ -14,6 +14,10 @@ public class Customer {
     private String email;
     private String country;
 
+    public Customer() {
+
+    }
+
     public Customer(int customerId){
     }
 
@@ -40,6 +44,8 @@ public class Customer {
         this.fax = fax;
         this.email = email;
     }
+
+
 
     public void setId(int id) {
         this.id = id;
@@ -83,6 +89,10 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override

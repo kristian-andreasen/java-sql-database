@@ -56,7 +56,40 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public Customer findById(Integer id) {
-        return null;
+        String sql = "SELECT * FROM customer WHERE customer_id = ?";
+        //List<Customer> customers = new ArrayList<>();
+        Customer customer = new Customer();
+        try(Connection conn = DriverManager.getConnection(url, username,password)) {
+            // Write statement
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1,id);
+            // Execute statement
+            ResultSet result = statement.executeQuery();
+            // Handle result
+
+            while(result.next()) {
+                customer.setId(result.getInt("customer_id"));
+                customer.setFirstName(result.getString("first_name"));
+                customer.setLastName(result.getString("last_name"));
+                customer.setCountry(result.getString("country"));
+                customer.setPostal_code(result.getString("postal_code"));
+                customer.setPhone(result.getString("phone"));
+                customer.setEmail(result.getString("email"));
+
+
+
+
+            }
+
+            /*while(result.next()) {
+                Customer customer = new Customer();
+                customers.add(customer);
+            }*/
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer;
+
     }
 
     @Override
