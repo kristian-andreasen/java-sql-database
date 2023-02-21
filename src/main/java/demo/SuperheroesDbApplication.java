@@ -26,8 +26,3 @@ public class SuperheroesDbApplication implements ApplicationRunner {
         customerRepositoryImpl.findAll();
     }
 }
-
-        //customerRepositoryImpl.findAll();
-    }
-}
-
