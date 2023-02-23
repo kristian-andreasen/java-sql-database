@@ -22,7 +22,10 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Value("${spring.datasource.password}")
     private String password = "admin";
 
-
+    /**
+     *
+     * @return a list of customers
+     */
     @Override
     public List<Customer> findAll() {
         String sql = "SELECT * FROM customer";
@@ -51,6 +54,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         }
         return customers;
     }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
 
     @Override
     public Customer findById(Integer id) {
@@ -81,6 +90,12 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
+
     @Override
     public Customer findCustomerByName(String name) {
         String sql = "SELECT * FROM customer WHERE first_name LIKE ?";
@@ -106,6 +121,13 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         }
         return customer;
     }
+
+    /**
+     *
+     * @param offset
+     * @param limit
+     * @return
+     */
 
     @Override
     public List<Customer> findCustomerPage(int offset, int limit) {
@@ -138,6 +160,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return customers;
     }
 
+    /**
+     * Returns a customerCountry object
+     *
+     * @return CustomerCountry
+     */
     @Override
     public CustomerCountry countryWithMostCustomers() {
         String sql = "SELECT MAX(country) AS country FROM customer;";
@@ -157,6 +184,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return customerCountry;
     }
 
+    /**
+     * returns a customerSpender object
+     *
+     * @return customerSpender
+     */
     @Override
     public CustomerSpender biggestSpender() {
         String sql = "SELECT SUM(total), customer_id FROM public.invoice group by customer_id ORDER BY 1 DESC;";
@@ -179,6 +211,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return customerSpender;
     }
 
+    /**
+     *
+     * @param customer
+     * @return
+     */
     @Override
     public CustomerGenre mostPopularGenre(Customer customer) {
         String sql = "SELECT count(genre.name) as count, genre.name as genre_name\n" +
@@ -225,6 +262,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return customerGenre;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public int insert(Customer object) {
         String sql = "INSERT INTO customer (first_name,last_name,postal_code,country,phone,email) values (?,?,?,?,?,?)";
@@ -252,6 +294,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return result;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public int update(Customer object) {
         String sql = "UPDATE customer SET first_name=?, last_name=?, postal_code=?,country=?,phone=?,email=? WHERE customer_id=?";
@@ -276,9 +323,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         return result;
 
     }
-
-
-
 
 
     @Override
