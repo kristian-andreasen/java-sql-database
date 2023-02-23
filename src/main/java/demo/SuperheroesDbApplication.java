@@ -1,5 +1,6 @@
 package demo;
 
+import demo.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -32,6 +33,28 @@ public class SuperheroesDbApplication implements ApplicationRunner {
 
         //customer requirements 3)
         //System.out.println(customerRepositoryImpl.findCustomerByName("Bjørn"));
+
+        //customer requirements 4)
+        //System.out.println(customerRepositoryImpl.findCustomerPage(10,20));
+
+        //customer requirements 5)
+        //Customer customer = new Customer("Lasse","Henriksen","2450","nej","nej","Denmark");
+        //System.out.println(customerRepositoryImpl.insert(customer));
+
+        //customer requirements 6)
+        //Customer customer = new Customer(1,"Lasse","Henriksen","2450","nej","nej","Denmark");
+        //System.out.println(customerRepositoryImpl.update(customer));
+
+        //customer requirements 7)
+        //System.out.println(customerRepositoryImpl.countryWithMostCustomers());
+
+        //customer requirements 8)
+        //System.out.println(customerRepositoryImpl.biggestSpender());
+
+        //customer requirements 9)
+        Customer customer = new Customer(23,"Lasse","Henriksen","2450","nej","nej","Denmark");
+        System.out.println(customerRepositoryImpl.mostPopularGenre(customer)[0]);
+
 
     }
 }

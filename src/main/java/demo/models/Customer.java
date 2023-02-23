@@ -8,6 +8,35 @@ public class Customer {
     private String address;
     private String city;
     private String state;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPostal_code() {
+        return postal_code;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
     private String postal_code;
     private String phone;
     private String fax;
@@ -19,6 +48,15 @@ public class Customer {
     }
 
     public Customer(int customerId){
+    }
+
+    public Customer(String firstName, String lastName, String postal_code, String phone, String email, String country){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.postal_code = postal_code;
+        this.phone = phone;
+        this.email = email;
+        this.country = country;
     }
 
     public Customer(int id, String firstName, String lastName, String postal_code, String phone, String email, String country) {
