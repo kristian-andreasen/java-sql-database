@@ -1,9 +1,11 @@
 
-package demo;
+package demo.repository;
 
 import demo.models.Customer;
+import demo.models.CustomerCountry;
+import demo.models.CustomerGenre;
+import demo.models.CustomerSpender;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface CustomerRepository extends CRUDRepository<Customer, Integer> {
@@ -12,11 +14,12 @@ public interface CustomerRepository extends CRUDRepository<Customer, Integer> {
 
     List<Customer> findCustomerPage(int offset, int limit);
 
-    String countryWithMostCustomers();
+    CustomerCountry countryWithMostCustomers();
 
-    Customer biggestSpender();
+    CustomerSpender biggestSpender();
 
-    String[] mostPopularGenre(Customer customer);
+
+    CustomerGenre mostPopularGenre(Customer customer);
 
 
 }

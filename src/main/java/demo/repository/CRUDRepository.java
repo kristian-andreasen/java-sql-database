@@ -1,4 +1,4 @@
-package demo;
+package demo.repository;
 
 import java.util.List;
 

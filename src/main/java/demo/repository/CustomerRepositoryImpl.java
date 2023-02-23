@@ -1,7 +1,10 @@
-package demo;
+package demo.repository;
 
 import demo.models.Customer;
 
+import demo.models.CustomerCountry;
+import demo.models.CustomerGenre;
+import demo.models.CustomerSpender;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -136,28 +139,29 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public String countryWithMostCustomers() {
+    public CustomerCountry countryWithMostCustomers() {
         String sql = "SELECT MAX(country) AS country FROM customer;";
-        String resultString = "";
+        CustomerCountry customerCountry = new CustomerCountry();
+
         try(Connection conn = DriverManager.getConnection(url, username,password)) {
             // Write statement
             PreparedStatement statement = conn.prepareStatement(sql);
 
             // Execute statement
             ResultSet result = statement.executeQuery();
-            while(result.next()){
-                resultString += result.getString("country");
-            }
+            result.next();
+            customerCountry.setCountry(result.getString("country"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return resultString;
+        return customerCountry;
     }
 
     @Override
-    public Customer biggestSpender() {
+    public CustomerSpender biggestSpender() {
         String sql = "SELECT SUM(total), customer_id FROM public.invoice group by customer_id ORDER BY 1 DESC;";
-        Customer customer = null;
+        CustomerSpender customerSpender = new CustomerSpender();
+
         try(Connection conn = DriverManager.getConnection(url, username,password)) {
             // Write statement
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -165,18 +169,18 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             ResultSet result = statement.executeQuery();
             result.next();
             int id = result.getInt("customer_id");
-            customer = findById(id);
+            customerSpender.setCustomer(findById(id));
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return customer;
+        return customerSpender;
     }
 
     @Override
-    public String[] mostPopularGenre(Customer customer) {
+    public CustomerGenre mostPopularGenre(Customer customer) {
         String sql = "SELECT count(genre.name) as count, genre.name as genre_name\n" +
                 "FROM track join genre\n" +
                 "on track.genre_id = genre.genre_id\n" +
@@ -187,31 +191,38 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 "WHERE invoice.customer_id = ?\n" +
                 "group by genre.name\n" +
                 "ORDER BY count desc";
-        String[] arrayOfResults = new String[2];
-        int[] arrayOfCounts  = new int[2];
+
+        CustomerGenre customerGenre = new CustomerGenre();
+        ArrayList<Integer> listOfCounts = new ArrayList<>();
+
         try(Connection conn = DriverManager.getConnection(url, username,password)) {
             // Write statement
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1,customer.getId());
             // Execute statement
             ResultSet result = statement.executeQuery();
-            int i = 0;
 
-            while(result.next() && i<2){
-                arrayOfResults[i] = result.getString("genre_name");
-                arrayOfCounts[i] = result.getInt("count");
-                i++;
+
+            result.next();
+            customerGenre.setMostPopular(result.getString("genre_name"));
+            listOfCounts.add(result.getInt("count"));
+            result.next();
+            customerGenre.setSecondMostPopular(result.getString("genre_name"));
+            listOfCounts.add(result.getInt("count"));
+
+
+
+            if(listOfCounts.get(0) == listOfCounts.get(1)) {
+                customerGenre.setTie(true);
+            } else {
+                customerGenre.setTie(false);
             }
-
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(arrayOfCounts[0] == arrayOfCounts[1]){
-            return arrayOfResults;
-        }
-        return new String[]{arrayOfResults[0]};
 
+        return customerGenre;
     }
 
     @Override
