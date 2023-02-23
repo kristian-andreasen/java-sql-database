@@ -176,17 +176,42 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    public String mostPopularGenre(Customer customer) {
-        String sql = "SELECT count(genre.name) as count, genre.name FROM track join genre\n" +
+    public String[] mostPopularGenre(Customer customer) {
+        String sql = "SELECT count(genre.name) as count, genre.name as genre_name\n" +
+                "FROM track join genre\n" +
                 "on track.genre_id = genre.genre_id\n" +
                 "join invoice_line\n" +
                 "on invoice_line.track_id = track.track_id\n" +
                 "join invoice\n" +
                 "on invoice_line.invoice_id = invoice.invoice_id\n" +
-                "WHERE invoice.customer_id = 4\n" +
+                "WHERE invoice.customer_id = ?\n" +
                 "group by genre.name\n" +
-                "ORDER BY count desc;";
-        return "";
+                "ORDER BY count desc";
+        String[] arrayOfResults = new String[2];
+        int[] arrayOfCounts  = new int[2];
+        try(Connection conn = DriverManager.getConnection(url, username,password)) {
+            // Write statement
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1,customer.getId());
+            // Execute statement
+            ResultSet result = statement.executeQuery();
+            int i = 0;
+
+            while(result.next() && i<2){
+                arrayOfResults[i] = result.getString("genre_name");
+                arrayOfCounts[i] = result.getInt("count");
+                i++;
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(arrayOfCounts[0] == arrayOfCounts[1]){
+            return arrayOfResults;
+        }
+        return new String[]{arrayOfResults[0]};
+
     }
 
     @Override

@@ -46,12 +46,14 @@ public class SuperheroesDbApplication implements ApplicationRunner {
         //System.out.println(customerRepositoryImpl.update(customer));
 
         //customer requirements 7)
-        System.out.println(customerRepositoryImpl.countryWithMostCustomers());
+        //System.out.println(customerRepositoryImpl.countryWithMostCustomers());
 
         //customer requirements 8)
         //System.out.println(customerRepositoryImpl.biggestSpender());
 
         //customer requirements 9)
+        Customer customer = new Customer(23,"Lasse","Henriksen","2450","nej","nej","Denmark");
+        System.out.println(customerRepositoryImpl.mostPopularGenre(customer)[0]);
 
 
     }

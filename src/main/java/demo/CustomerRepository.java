@@ -16,7 +16,7 @@ public interface CustomerRepository extends CRUDRepository<Customer, Integer> {
 
     Customer biggestSpender();
 
-    String mostPopularGenre(Customer customer);
+    String[] mostPopularGenre(Customer customer);
 
 
 }
